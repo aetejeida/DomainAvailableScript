@@ -89,13 +89,15 @@ const numOfPages = () => {
                 let letter = abc[index];
                 JSDOM.fromURL(`https://www.dictionary.com/list/${letter}/`)
                     .then(response => {
-                        let numPages = parseInt(response
-                            .window
-                            .document
-                            .getElementsByClassName('css-d19rru')[1]
-                            .innerHTML
-                            .replace(/\s/g, '')
-                            .split('"')[1]);
+                        let numNewIMplemenation = response.window.document.getElementsByClassName('css-7cjcxa-NavLastItem')[0].children[0].dataset.page
+                        // let numPages = parseInt(response
+                        //     .window
+                        //     .document
+                        //     .getElementsByClassName('css-d19rru')[1]
+                        //     .innerHTML
+                        //     .replace(/\s/g, '')
+                        //     .split('"')[1]);
+                        let numPages = parseInt(numNewIMplemenation);
                         objArrayResponse.push({ letter: letter, pages: numPages });
                         loop.next();
                     });
@@ -114,7 +116,7 @@ const wordsForLetter = (letter, pages) => {
             let index = loop.iteration();
             JSDOM.fromURL(`https://www.dictionary.com/list/${letter}/${index}`)
                 .then(response => {
-                    let words = response.window.document.getElementsByClassName('css-ytumd6');
+                    let words = response.window.document.getElementsByClassName('css-1c7x6hk-Anchor');
                     for (const word of words) {
                         if (!word.text.includes('synonyms')) {
                             objArrayResponse.push(word.text);
